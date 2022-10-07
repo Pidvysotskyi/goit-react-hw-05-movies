@@ -19,8 +19,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   </React.StrictMode>
 );
 
-getTranding();
-getByQuery('potter');
-getMovieDetails(671);
-getMovieCredits('671');
-getMovieReviews(671);
+// getTranding();
+// getByQuery('potter');
+// getMovieDetails(671);
+// getMovieCredits('671');
+// getMovieReviews(671);

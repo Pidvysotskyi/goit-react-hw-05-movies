@@ -4,10 +4,12 @@ import Movies from 'pages/Movies/Movies';
 import MovieDetails from 'pages/MovieDetails/MovieDetails';
 import Cast from './Cast/Cast';
 import Reviews from './Reviews/Reviews';
+import { Header } from './Header/Header';
 
 export const App = () => {
   return (
-    <div>
+    <>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />
@@ -15,7 +17,8 @@ export const App = () => {
           <Route path="/movies/:movieId/cast" element={<Cast />} />
           <Route path="/movies/:movieId/reviews" element={<Reviews />} />
         </Route>
+        <Route path="*" element={<Home />} />
       </Routes>
-    </div>
+    </>
   );
 };
