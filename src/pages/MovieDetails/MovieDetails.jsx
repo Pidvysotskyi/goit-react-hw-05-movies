@@ -1,38 +1,52 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, NavLink } from 'react-router-dom';
 import { getMovieDetails } from 'utils/Backend_API';
+import { BASE_IMG_URL } from 'utils/baseImageUrl';
 
-const BASE_IMG_URL = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/';
 const MovieDetails = () => {
-  const [movieDetails, setMovieDetails] = useState({});
-
   const { movieId } = useParams();
+  const [posterPath, setPosterPath] = useState('');
+  const [tagLine, setTagLine] = useState({});
+  const [originalTitle, setOriginalTitle] = useState('');
+  const [releaseDate, setReleaseDate] = useState('');
+  const [userScore, setUserScore] = useState(0);
+  const [overview, setOverview] = useState('');
+  const [genres, setGenres] = useState('');
 
   useEffect(() => {
-    getMovieDetails(movieId).then(movie => setMovieDetails(movie));
+    getMovieDetails(movieId).then(movie => {
+      setOriginalTitle(movie.original_title);
+      setReleaseDate(movie.release_date.slice(0, 4));
+      setPosterPath(BASE_IMG_URL + movie.poster_path);
+      setTagLine(movie.tagline);
+      setUserScore(Math.floor(Number(movie.vote_average) * 10));
+      setGenres(movie.genres.map(genre => genre.name).join(', '));
+      setOverview(movie.overview);
+    });
   }, [movieId]);
 
   return (
     <>
       <div>
-        <img
-          src={`${BASE_IMG_URL}${movieDetails.poster_path}` || null}
-          alt={movieDetails.tagline}
-          width="300"
-        />
+        <img src={posterPath} alt={tagLine} width="300" />
         <div>
           <h2>
-            {movieDetails.original_title} / {movieDetails.release_date}
+            {originalTitle} / {releaseDate}
           </h2>
           <p>
             <b>User score:</b>
-            {Math.floor(Number(movieDetails.vote_average) * 10)}%
+            {userScore}%
           </p>
           <h3>Overview</h3>
-          <p>{movieDetails.overview}</p>
+          {overview}
           <h4>Genres</h4>
-          <p></p>
+          <p>{genres}</p>
         </div>
+      </div>
+      <div>
+        <p>Additional information</p>
+        <NavLink to="cast">cast</NavLink>
+        <NavLink to="reviews">reviews</NavLink>
       </div>
       <Outlet />
     </>

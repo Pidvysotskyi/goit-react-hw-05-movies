@@ -25,18 +25,18 @@ export function getMovieDetails(movieId) {
     .catch(error => console.log(error));
 }
 export function getMovieCredits(movieId) {
-  axios
+  return axios
     .get(
       `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
     )
-    .then(response => console.log(response.data))
+    .then(response => response.data)
     .catch(error => console.log(error));
 }
 export function getMovieReviews(movieId) {
-  axios
+  return axios
     .get(
       `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`
     )
-    .then(response => console.log(response.data))
+    .then(response => response.data.results)
     .catch(error => console.log(error));
 }
