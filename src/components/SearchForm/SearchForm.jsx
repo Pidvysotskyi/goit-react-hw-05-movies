@@ -1,4 +1,6 @@
-import { Formik, Field, Form } from 'formik';
+import { Formik } from 'formik';
+import PropTypes from 'prop-types';
+import { StyledForm, StyledField } from './SearchForm.styled';
 
 const SearchForm = ({ onSearch }) => {
   return (
@@ -11,14 +13,18 @@ const SearchForm = ({ onSearch }) => {
         resetForm();
       }}
     >
-      <Form>
+      <StyledForm>
         <label>
-          <Field type="text" name="query" />
+          <StyledField type="text" name="query" />
         </label>
         <button type="submit">Search</button>
-      </Form>
+      </StyledForm>
     </Formik>
   );
+};
+
+SearchForm.propTypes = {
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default SearchForm;

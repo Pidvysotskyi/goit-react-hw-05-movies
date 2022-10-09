@@ -1,10 +1,17 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link } from './FilmListItem.styled';
+import PropTypes from 'prop-types';
 
 export const FilmListItem = ({ filmId, name }) => {
   const location = useLocation();
   return (
-    <NavLink to={`/movies/${filmId}`} state={{ from: location }}>
+    <Link to={`/movies/${filmId}`} state={{ from: location }}>
       {name}
-    </NavLink>
+    </Link>
   );
+};
+
+FilmListItem.propTypes = {
+  filmId: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
 };

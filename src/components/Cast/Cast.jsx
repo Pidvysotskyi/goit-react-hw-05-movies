@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieCredits } from 'utils/Backend_API';
 import { BASE_IMG_URL } from 'utils/baseImageUrl';
+import { CastList, CastItem, CastImage, CharacterSpan } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -13,29 +14,33 @@ const Cast = () => {
     });
   }, [movieId]);
   return (
-    <ul>
+    <CastList>
       {cast.map(({ profile_path, name, original_name, character, cast_id }) => {
         return (
-          <li key={cast_id}>
+          <CastItem key={cast_id}>
             {profile_path ? (
-              <img src={BASE_IMG_URL + profile_path} alt={name} width="150" />
-            ) : (
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+              <CastImage
+                src={BASE_IMG_URL + profile_path}
                 alt={name}
                 width="150"
+              />
+            ) : (
+              <CastImage
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+                alt={name}
+                width="200"
               />
             )}
 
             <p>{original_name}</p>
             <p>
-              <span>Character: </span>
-              {character}
+              <CharacterSpan>Character: </CharacterSpan>
+              <span>{character}</span>
             </p>
-          </li>
+          </CastItem>
         );
       })}
-    </ul>
+    </CastList>
   );
 };
 

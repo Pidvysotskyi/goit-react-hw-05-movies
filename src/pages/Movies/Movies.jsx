@@ -4,6 +4,8 @@ import FilmList from 'components/FilmList/FilmList';
 import { getByQuery } from 'utils/Backend_API';
 import { useSearchParams } from 'react-router-dom';
 import { MagnifyingGlass } from 'react-loader-spinner';
+import { Box } from 'components/Box';
+import { QueryMessage } from './Movies.styled';
 
 const Movies = () => {
   const [searchParams, setSerachParams] = useSearchParams();
@@ -43,15 +45,15 @@ const Movies = () => {
   };
 
   return (
-    <div>
+    <Box pl="20px">
       <SearchForm onSearch={handleSearch} />
       {films.length === 0 && status === 'done' ? (
-        <p>There are no movies found for your query</p>
+        <QueryMessage>There are no movies found for your query</QueryMessage>
       ) : (
         <FilmList films={films} />
       )}
       {status === 'pending' && <MagnifyingGlass />}
-    </div>
+    </Box>
   );
 };
 

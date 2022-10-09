@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useParams, NavLink, useLocation } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { getMovieDetails } from 'utils/Backend_API';
 import { BASE_IMG_URL } from 'utils/baseImageUrl';
+import { Box } from 'components/Box';
+import { StyledLink } from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const location = useLocation();
@@ -26,14 +28,12 @@ const MovieDetails = () => {
     });
   }, [movieId]);
 
-  console.log(location.state.from);
-
   return (
-    <>
-      <NavLink to={location.state.from}>Go back</NavLink>
-      <div>
+    <Box>
+      <StyledLink to={location.state.from}>Go back</StyledLink>
+      <Box display="flex">
         <img src={posterPath} alt={tagLine} width="300" />
-        <div>
+        <Box ml="20px">
           <h2>
             {originalTitle} / {releaseDate}
           </h2>
@@ -45,19 +45,19 @@ const MovieDetails = () => {
           {overview}
           <h4>Genres</h4>
           <p>{genres}</p>
-        </div>
-      </div>
+        </Box>
+      </Box>
       <div>
         <p>Additional information</p>
-        <NavLink to="cast" state={{ from: location.state.from }}>
+        <StyledLink to="cast" state={{ from: location.state.from }}>
           cast
-        </NavLink>
-        <NavLink to="reviews" state={{ from: location.state.from }}>
+        </StyledLink>
+        <StyledLink to="reviews" state={{ from: location.state.from }}>
           reviews
-        </NavLink>
+        </StyledLink>
       </div>
       <Outlet />
-    </>
+    </Box>
   );
 };
 
