@@ -8,29 +8,35 @@ const Movies = () => {
   const [searchParams, setSerachParams] = useSearchParams();
   const [films, setFilms] = useState([]);
   const [query, setQuery] = useState('');
+  const urlQuery = searchParams.get('query');
 
   useEffect(() => {
+    if (urlQuery) {
+      setQuery(urlQuery);
+      console.log('the query is in url');
+    } else {
+      setQuery('');
+    }
     if (query === '') {
       return;
     }
     getByQuery(query).then(data => {
       setFilms(data);
     });
-  }, [query]);
+  }, [query, urlQuery]);
 
   const handleSearch = serachQuery => {
     setSerachParams({ query: serachQuery });
     setQuery(serachQuery);
-    console.log(searchParams.get('query'));
   };
 
   return (
     <div>
       <SearchForm onSearch={handleSearch} />
-      {films.length !== 0 || query === '' ? (
-        <FilmList films={films} />
-      ) : (
+      {films.length === 0 && query !== '' ? (
         <p>There are no movies found for your query</p>
+      ) : (
+        query !== '' && <FilmList films={films} />
       )}
     </div>
   );

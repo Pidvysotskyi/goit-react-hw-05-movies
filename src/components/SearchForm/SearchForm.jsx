@@ -6,8 +6,9 @@ const SearchForm = ({ onSearch }) => {
       initialValues={{
         query: '',
       }}
-      onSubmit={({ query }) => {
+      onSubmit={({ query }, { resetForm }) => {
         onSearch(query);
+        resetForm();
       }}
     >
       <Form>
