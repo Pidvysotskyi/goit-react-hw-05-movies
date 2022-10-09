@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useParams, NavLink } from 'react-router-dom';
+import { Outlet, useParams, NavLink, useLocation } from 'react-router-dom';
 import { getMovieDetails } from 'utils/Backend_API';
 import { BASE_IMG_URL } from 'utils/baseImageUrl';
 
 const MovieDetails = () => {
+  const location = useLocation();
   const { movieId } = useParams();
   const [posterPath, setPosterPath] = useState('');
   const [tagLine, setTagLine] = useState({});
@@ -25,8 +26,11 @@ const MovieDetails = () => {
     });
   }, [movieId]);
 
+  console.log(location.state.from);
+
   return (
     <>
+      <NavLink to={location.state.from}>Go back</NavLink>
       <div>
         <img src={posterPath} alt={tagLine} width="300" />
         <div>
@@ -45,8 +49,12 @@ const MovieDetails = () => {
       </div>
       <div>
         <p>Additional information</p>
-        <NavLink to="cast">cast</NavLink>
-        <NavLink to="reviews">reviews</NavLink>
+        <NavLink to="cast" state={{ from: location.state.from }}>
+          cast
+        </NavLink>
+        <NavLink to="reviews" state={{ from: location.state.from }}>
+          reviews
+        </NavLink>
       </div>
       <Outlet />
     </>

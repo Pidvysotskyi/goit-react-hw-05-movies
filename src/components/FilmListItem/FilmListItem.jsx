@@ -1,5 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export const FilmListItem = ({ filmId, name }) => {
-  return <NavLink to={`${filmId}`}>{name}</NavLink>;
+  const location = useLocation();
+  return (
+    <NavLink to={`/movies/${filmId}`} state={{ from: location }}>
+      {name}
+    </NavLink>
+  );
 };

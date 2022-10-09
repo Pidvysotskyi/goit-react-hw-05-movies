@@ -3,27 +3,39 @@ import { useState, useEffect } from 'react';
 import FilmList from 'components/FilmList/FilmList';
 import { getByQuery } from 'utils/Backend_API';
 import { useSearchParams } from 'react-router-dom';
+import { MagnifyingGlass } from 'react-loader-spinner';
 
 const Movies = () => {
   const [searchParams, setSerachParams] = useSearchParams();
   const [films, setFilms] = useState([]);
   const [query, setQuery] = useState('');
+  const [status, setStatus] = useState('idle');
   const urlQuery = searchParams.get('query');
 
   useEffect(() => {
     if (urlQuery) {
       setQuery(urlQuery);
-      console.log('the query is in url');
-    } else {
-      setQuery('');
-    }
-    if (query === '') {
       return;
     }
-    getByQuery(query).then(data => {
-      setFilms(data);
-    });
-  }, [query, urlQuery]);
+    setQuery('');
+  }, [urlQuery]);
+
+  useEffect(() => {
+    if (query === '') {
+      setStatus('idle');
+      setFilms([]);
+      return;
+    }
+    setStatus('pending');
+    getByQuery(query)
+      .then(data => {
+        setFilms(data);
+      })
+      .catch(error => console.log(error))
+      .finally(() => {
+        setStatus('done');
+      });
+  }, [query]);
 
   const handleSearch = serachQuery => {
     setSerachParams({ query: serachQuery });
@@ -33,11 +45,12 @@ const Movies = () => {
   return (
     <div>
       <SearchForm onSearch={handleSearch} />
-      {films.length === 0 && query !== '' ? (
+      {films.length === 0 && status === 'done' ? (
         <p>There are no movies found for your query</p>
       ) : (
-        query !== '' && <FilmList films={films} />
+        <FilmList films={films} />
       )}
+      {status === 'pending' && <MagnifyingGlass />}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getTrending } from 'utils/Backend_API';
-import { TrendingListItem } from 'components/TrendingListItem/TrendingListItem';
+import FilmList from 'components/FilmList/FilmList';
 
 const Home = () => {
   const [trending, setTrending] = useState([]);
@@ -14,13 +14,7 @@ const Home = () => {
   return (
     <div>
       <h1>Trending today</h1>
-      <ul>
-        {trending.map(({ id, original_title }) => (
-          <li key={id}>
-            <TrendingListItem filmId={id} name={original_title} />
-          </li>
-        ))}
-      </ul>
+      <FilmList films={trending} />
     </div>
   );
 };
